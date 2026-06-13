@@ -1,0 +1,77 @@
+
+EC2 : Elastic Compute Cloud : 
+
+Server = Instance = Azure VM = GCP Compute Engine = Virtual Machine
+
+CAPEX : 
+OPEX : 
+
+
+
+1). On-Demand Instances : Pay per second (pay as you go).. No long term commitment with AWS.. 
+
+--> Dev / Testing
+--> Short term projects
+--> Unpreditable workloads
+
+2). Reserved Instances (RI): Commitment for 1 yr / 3yrs and get signicant discounts compared to on-demand.  (upto 72% discount compared to On-Demand)
+--> When you know what configuration you want to use for long term.
+--> Stable and predictable production workloads.. 
+
+We have 2 Purchase options : 
+--> Standard RI : We cannot change the configuration for selected duration.
+--> Convertable RI : We can change configuration during the commitment period.
+
+We have 3 Pricing Models : 
+FUll Upfront : Pay full amount now, No need to pay anything monthly basis. 
+
+Partial Upfront : Pay 40-60% of amount now.. AWS reduses the hourly price, Based on your usage, you need to pay monthly, but with redused hourly price.. 
+
+No Upfront : No need to pay anything as upfront, pay everything on monthly basis. 
+
+
+3). Savings Plan : This is a modern replacement/improvement over RIs. AWS introdused this to reduse the RIs complexity. 
+
+We are commiting with AWS on hourly pricing. You are giving commitmemnt to aws, that you spend fixed amount per hour on compute. AWS provides good amount of discount.
+
+	3.1 Compute Savings Plan : We can use this with multiple services : ec2, lambda, fargate.. We can change Instance family/ size / region / os / Azs.. 
+	3.2 EC2 Instance Savings Plan : we can use this with only EC2, Specific to the particular region.. 
+	3.3 SageMaker Savings Plan : AI/ML related workload. 
+	3.4 Database Savings Plan : Database related workload i.e; rds, elasticache
+
+4). Spot Instances : AWS offers its unused capacity at huge discount.. BUT.. AWS can terminate/Delete the instance anytime with just 2 min interruption warning.. 
+Temp batch job, Rendering, Batch jobs, Easily recoverable jobs, Interruptable jobs.. 
+
+--> We have to bid our price against AWS spot price.. We have pricing history view option.. 
+--> Our price should be equal or higher than AWS price.. So we get instance..
+
+5 Hours 55 minutes.. 
+
+Price Not Increased, "YOU TERMINATED" instance, You chaged for 5 Hours 55 minutes
+Price Increased, "AWS TERMINATED" instance, You chaged for 5 Hours only..  (We dont get charged for partial hours)
+
+
+EC2 --> Region Specific
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
