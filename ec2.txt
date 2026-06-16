@@ -160,6 +160,127 @@ open run (win + r) --> type "mstsc" --> Click enter --> Provide instance Public 
 
 2. mac os : windows app 
 
+==========================
+
+D: 16/06/2026
+
+Linux Instance Launch : 
+
+Step 1 : Add Tags
+Step 2 : Choose an AMI (Amazon Machiene Image) : Amazon Linux 2023 
+(Amazon Linux Default username: ec2-user, redhat: ec2-user/redhat, ubuntu: ubuntu)
+
+Step 3 : Choose the Instance Type : t3.micro
+
+Step 4 : Choose keypair 
+
+
+Keypair : Combination of Public and Private Key
+Public Key = Lock						--> AWS keeps it, Automatically stores inside ec2 instance (AWS)
+Private Key = Key to open the lock		--> Downlaods to our laptop automatically (YOU)
+
+Linux os : Use key directly and connect (.pem and .ppk)
+
+Putty : .ppk (Putty Private Key)
+MobaXterm : .pem and .ppk
+Command Prompt / Terminal : .pem
+git Bash : .pem
+
+macOS : terminal
+Windows : ps / command prompt
+
+Browser Connect : Less Secured (We need to open port 22 to everyone)
+
+.pem --> Can i convert .pem to .ppk --> using "PyttyGen"
+
+--> One Keypair can be used with multiple instances. 
+
+=====
+
+Option 1 : Browser Based Connect : Choose the instance, click on "connect" then choose "EC2 Instance Connect"
+and click on "connect"
+* We need to open port 22 for everyone.
+* Check browser popup
+* WE DONT USE THIS FEATURE IN REAL ENVIRONMENTS. 
+
+Option 2 : Use your laptop inbuilt tools.
+
+** At ENTERPRISE, Most of the guys, use this option.
+
+----
+
+Windows: Command prompt / Powershell 
+--> Type "ssh" and enter 
+(ssh usage instruction --> good)
+(ssh is unrecognised command --> Need to enable openssh in your laptop - follow below steps)
+
+Open settings --> system --> Optional Features --> View Features --> Add an Optional feature --> look for "OpenSSH CLient" --> Click on the checkbox --> Next --> Finish.
+Close the cmd prompt and open again, Type "ssh" and it should return ssh usage instructions.
+
+Open a command prompt at your keypair folder location --> type "dir" and you should able to see "keypair".
+
+
+Windows: UNPROTECTED PRIVATE KEY FILE! / Permissions are too open.!!
+
+icacls "C:\path\to\keypair" /inheritance:r
+icacls "C:\path\to\keypair" /grant:r "$($env:USERNAME):(F)"
+icacls "C:\path\to\keypair"
+
+ssh -i <keypair> <username>@<public-ip>
+
+ssh -i awar10-lnx-kp.pem ec2-user@13.203.196.201
+
+---------
+
+MacOS : Every mac will have default terminal. Open it. --> type "ls" and you should able to see "keypair".
+
+Possible errors: WARNING: UNPROTECTED PRIVATE KEY FILE!
+
+chmod 400 awar10-lnx-kp.pem
+
+ssh -i <keypair> <username>@<public-ip>
+
+ssh -i awar10-lnx-kp.pem ec2-user@13.203.196.201
+
+----
+
+Option 3 : Works in Windows and MacOS
+
+https://git-scm.com/install/windows Download and install git in your laptop
+
+chmod 400 awar10-lnx-kp.pem
+
+ssh -i <keypair> <username>@<public-ip>
+
+ssh -i awar10-lnx-kp.pem ec2-user@13.203.196.201
+
+-----
+
+Option 4 : Works only in Windows.. Putty Option
+
+* Putty Supports only .ppk file. We have option to conver .pem --> .ppk using "puttygen"
+* Puttygen also helps us to create our own public key and private key.
+
+First using PuttyGen Conver .pem to .ppk, then use putty and connect to the instance.. 
+
+----
+
+Option 5 : 3rd party tools i.e; superputty / mobaxterm
+
+Supports .pem and .ppk files
+
+---
+
+Option 6 : AWS has Cloudshell option to connect to our ec2 instances. 
+Open cloudshell, choose the region if its asked you to. 
+
+Choose Actions and choose upload and then uplaod the keypair (.pem)
+
+chmod 400 <keypair>
+
+ssh -i awar10-lnx-kp.pem ec2-user@13.203.196.201
+
+
 
 
 
