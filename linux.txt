@@ -1,0 +1,107 @@
+D: 17/06/2026
+
+
+Linux : Linus Torvalds Developed linux kernel.. 
+
+Kernel : Component that enable communication between OS / OS apps and Hardware.. 
+
+Open-source : Free to use, Free to take a copy and modify and distribute for any purpose.. Transaparancy / Collaborate / Customise / free distribution..
+Security : Rebust against malware, virus (Strong permisisons)..
+Cost Effective : No Licensing cost involved.. 
+Performance : High-end to low end systems support linux.. embedded devices to super computers.. 
+
+
+Linux has wide range of Distros: 
+
+General Purpose : Ubuntu / Fedora / Linux Mint / Majento..
+Enterrise Server : RHEL / SUSE Linux / Amazon Linux 2023
+Penetratio testing : ParrotOS / Kali Linux
+Lightweight OS : lubuntu, Puppy Linux
+Containers : alpine, bookwarm
+IoT / Embedded : Rasberripi, Yocto
+
+---------------
+
+1. Launch a Linux ec2 instance
+
+pwd 	: Print working Directory : 
+ls  	: Displays / lists the files/directories from current location.
+
+ls -a	: 
+
+man <command>
+man ls
+
+<command> --help
+ls --help
+
+cd /			--> Navigates to / path in linux
+
+
+/ 		: Root directory : To level directory in linux os, Everything starts here.. 
+
+/root 	: The home directory for root user. (c:\Users\Administratpr)
+
+/home	: Home directory of regular/non-root users. 
+
+/bin	: Binary Executables : Contains all essential binary files used by all users.
+
+/boot	: Boot loader files : LInux kernel and boot config
+
+/dev	: Device files : Contains file the represent hardware devices i.e; hard disks.. 
+
+/etc	: Configuration files : Stores system wide config files (i.e; /etc/passwd, /etc/groups)
+
+/var	: Variable files : Contains data that changes frequently (logs, database, documenttoot path)
+
+/usr	: user programs : contains user level programs and libs.
+
+/sbin	: system binaries : System admin commands (ifconfig, iptables) - Only root/superuser can execute
+
+/lib & lin64	: similar to windows .dll files : Essential shared library files.. 
+/proc	: process inforamtion (cpu / RAM / processes)
+/opt	: optional software
+/mnt	: mount points
+/media	: removable media
+
+========================
+
+pwd			: Print working directory
+ls			: List files and directories
+cd			: Change directory
+cd ..		: Takes one step back in the current path (Moves up one directory path)
+cat			: Create a empty / zero byte file
+
+
+touch 		: create a empty file.
+
+mkdir		: Command to create a directory
+
+cp			: Copy and Paste
+mv			: Cut and paste
+mv			: Rename
+
+cp <file> <target>			: Copy individual files to a target directory
+cp -R <dir> <target>		: Copy an entire directory recursively
+
+mv v* videos/
+
+mv <old-name> <new-name>	: Rename old to new name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
