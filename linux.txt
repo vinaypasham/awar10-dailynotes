@@ -221,6 +221,86 @@ export AGE=36
 
 source ~/.bashrc
 
+=====================
+
+D: 19/06/2026
+
+1. RPM (Redhat Package Manager) : Does not resolve dependenciies automatically. 
+
+rpm -ivh package.rpm
+
+2. YUM (Yellodog Updater Modified) : its a wrapper around rpm, that can automatically resolve dependencies and retrive packages from repositories (repo).
+
+yum install httpd
+yum install nginx
+
+3. DNF (Dandified YUM) : All new linux distro are already using/switching to dnf as it works better for dependencies resolution.
+
+dnf install httpd
+dnf install nginx
+
+dnf search <pkg-name>
+dnf info <pkg-name>
+dnf list installed 
+
+dnf remove <pkg-name>
+
+Repo Config : /etc/yum.repos.d (or) /etc/dnf/dnf.conf
+
+------
+
+Option 1 : Provide sudo permisisons to the user, so he can use "sudo" to install the packages. ec2-user by defaultly part of wheel, so he gets sudo permisisons automatically. 
+
+sudo dnf install httpd
+
+Option 2 : Switch to root user and perform the installations. : sudo su -
+
+sudo su		: It wont fully load root users environment variables. (.bash_profile, .bashrc)
+sudo su -	: Switch to root with login shell and it lods root;s environment variables. Simulates a fresh root login (Best practice for admin related activities)
+sudo -i		: Same as (sudo su -), loads root user env var and moves to /root path.
+
+-------
+
+
+sudo dnf install httpd			--> Ask for confirmation.
+
+sudo dnf install httpd -y		--> Picks yes as option and continue the installation.
+
+
+which httpd
+
+
+ERR_CONNECTION_TIMED_OUT		--> Problem with Security Group, Traffic not reached instance.
+ERR_CONNECTION_REFUSED			--> Problem with the service. Service is stopped (or) No service is listerning on defined port.
+
+
+sudo systemctl status httpd
+sudo systemctl start httpd
+sudo systemctl stop httpd
+sudo systemctl restart httpd
+
+sudo systemctl enable httpd			: Make httpd service as a loon service.
+
+sudo systemctl enable httpd --now	: Start the service and make it as logon service.
+
+
+Apache DocumentRoot Path: /var/www/html/
+nginx : /usr/share/nginx/html/
+
+cd /var/www/html/
+sudo vim index.html
+
+sudo init 6		--> Reboot
+sudo init 0		--> Shutdown
+
+apache configuration path : /etc/httpd/conf/httpd.conf
+
+
+
+
+
+
+
 
 
 
