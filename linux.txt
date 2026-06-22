@@ -302,7 +302,6 @@ D: 20/06/2026
 top			: Show realtime view of all the runnin gprocesses
 htop		: Same as top but with better UP (sudo dnf install htop -y)
 
-
 top 
 --> Press "P" to sory processes by CPU Usage
 --> Press "M" to sort by Memory usage
@@ -338,7 +337,6 @@ pkill sleep
 ps aux --sort=-%cpu | head 				--> Find processes using most CPU
 ps aux --sort=-%mem | head 
 
-
 free			: Show the free memory
 free -h			: shows the memory in human readable format
 free -m			: shows memory in Mb
@@ -348,7 +346,6 @@ watch -n 5 free -h
 
 User Management in Linux OS
 
-
 /etc/passwd				--> User Details
 /etc/shadow				--> Encrypted passwords
 /etc/groups				--> Group details
@@ -357,7 +354,6 @@ User Management in Linux OS
 who / w					--> Shows us, who actually logged into the system currently.
 
 id <user-name>			--> Displays user id, if user already exists
-
 
 sudo useradd avinash		
 sudo useradd -m avinash		--> Explicitly passing argument to create a home directory
@@ -384,14 +380,139 @@ sudo usermod -U avinash		--> UnLock/Enable user
 sudo groupadd developers					--> creates a group
 sudo usermod -aG developers avinash			--> Add avinash to developers group
 sudo groupdel developers					--> Delete the group
-sudo passwd -d avinash developers			--> Remove avinash user from group
+sudo gpasswd -d avinash developers			--> Remove avinash user from group
 
 getent group developers						--> Shows the group members
 
 sudo usermod -aG wheel avinash				--> Adding avinash user to wheel group, so avinash can use sudo permissions.
 
+=============================
+
+D: 22/06/2026
+
+Login to instance using Password..
+
+1. Set a password for the user, adjust the sshd configuration to use the password.. 
+
+	1.1 SSH Configuration : /etc/ssh/sshd_config
+
+PasswordAuthentication is set to "NO" by default in aws ec2 instances, Adjust this to YES and restart the service.. 
+
+	1.2 cloud-init config : /etc/cloud/cloud.cfg
+
+edit the cloud-init configuration file and adjust the ssh_pwauth to "true"
+	
+
+sudo systemctl restart sshd
+sudo systemctl restart sssd
+
+--> Now try to login as a user who has a password without using a keypair. 
+
+cd ~			--> Takes us to users home directory
+cd .ssh
+authorized_keys		--> This file contains 
+
+===============
+
+sssd : system security servcies daemon : THis provides authentication and identity management for linux machienes.. 
+
+sshd : secure shell daemon : Helps to establish the connectivity to linux using ssh protocol..
+
+==============
+
+ls			--> Basic list
+ll			--> long list
+ls -ll 		--> long list
+
+d	rwxr-xr-x. 2 ec2-user ec2-user 6 Jun 22 04:07 newtest
+-	rw-r--r--. 1 ec2-user ec2-user 0 Jun 22 04:07 test.txt
+
+- 		: regualr file
+d		: directory
+l		: symbolic link: shortcut pointing to other directory
+b		: Block Device
 
 
+
+d		rwx		r-x		r-x		. 2 ec2-user ec2-user 6 Jun 22 04:07 newtest
+type	owner	Group	others		user	group		date modified	filename
+
+
+owner : u
+group : g
+others : o
+
+read : r : view file content and list directories
+write : w : edit the file content and create/delete files inside the directory
+execute : x : run as program and enter the directory
+
+Octal/Numberic Permissions Management method:
+
+Read 	: r : 4
+write	: w : 2
+execute	: x : 1
+None	: - : 0 
+
+7 : rwx : 4+2+1 : Full Access
+6 : rw- : 4+2+0 : Read and Write
+5 : r-x : 4+0+1 : Read and Execute
+4 : r-- : 4+0+0 : Read Only
+0 : --- : 0+0+0 : No Access
+
+chmod 400 keypair.pem
+
+
+chmod 400			--> u=r 	g=0 	O=0
+chmod 644			--> u=r&w	g=r		O=r
+chmod 777			--> u=rwx	g=rwx	O=rwx
+
+stat <file-name>
+getfacl <file-name>
+
+-----
+
+Scenario 1 : Only owner can perform anything
+
+mkdir ~/private
+
+chmod 700 private
+
+Scenario 2 : team Collaboration directory
+
+cd /opt
+sudo mkdir teamproject
+sudo groupadd devteam
+
+sudo usermod -aG devteam avinash
+sudo usermod -aG devteam anudeep
+
+sudo chgrp devteam teamproject/
+stat teamproject/					--> verification
+
+sudo chmod 774 teamproject/
+
+Owner and devteam can perform anything.. But, others can perform "read only"
+
+Scenario 3 : Sticky bit Permissions (Everyone will have all permissions, but only user who created the file can delete the file)
+
+cd /tmp
+sudo mkdir shared
+sudo chmod 1777 shared/
+
+=========================
+
+HEREDOC (EOF) : here document
+
+cat <<EOF > fruits-new.txt
+apple
+banana
+mango
+grapes
+oranges
+EOF
+
+
+=========================
 
 
 
