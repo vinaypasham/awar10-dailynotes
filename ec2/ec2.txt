@@ -282,22 +282,76 @@ ssh -i awar10-lnx-kp.pem ec2-user@13.203.196.201
 
 =========================
 
-D: 17/06/2026
+Refer LINUX.txt file for linux sessions document
+
+========================
+
+D: 26/06/2026
+
+
+** If you created a snapshot and created volume from the snapshot (OR) IF YOU USE COPY VOLUME VOLUME.. 
+and tryiong to attach the volume to the same ec2 instance (when existing vol is still attached), YOu get an error UUID same error
+
+
+sudo lsblk -f
+
+sudo xfs_repair -L /dev/nvme1n1
+
+sudo xfs_admin -U generate /dev/nvme1n1		--> new uuid will generate
+
+---
+
+snapshot : Backup copy of an ebs volume. Its a point in time copy. 
+
+snaoshots are point in time copies (when you are creating a snapshot, whatever data we have in ebs volume, only that will be backedup in snapshot)
+
+AWS uses s3 platform for storing the snapshots (Not out s3 platform)..
+
+Can we see/view data from a snapshot.? Ans: NO.. 
+Attach to an ec2 instance to view data.. 
+
+AWS uses incremental backup mechanism in backend when it is backing up data into a new snapshot.. 
+As a customer, we just need most recent copy to restore all our data..
+
+If we have an unencrypted volume, how can we enable encryption.? 
+Ans : We cant edit and enable encryption.. 
+
+Take a snapshot of ebs volume (unecry) -->  From Snaoshot Create a volume, WHILE CREATING, ENABLE "ENCRYPTION"
+
+If you want to share a snapshot with other AWS account, Your snapshot should not be encypted with "Default Encryption Key".. 
 
 
 
+================
 
+SLAs : Service Level Agreements.. 
 
+RTO : Recovery Time Objective : 
+Question : How long can we affod to be offline.
+Simple Meaning: Dowtime limit
+Example: If our RTO is 2 hrs, we must have systems should be backup and running with in 2 hours of crash to avoid business loss. 
 
+RPO : Recovery Point Objective : 
+Simple Meaning : Data loss limit
+Question: How much data loss we can offered.
+Example: If your RPO is set to 2 Hours, You must have backup configured for every 2 hours or less than 2 hrs.
 
+DLM / Data Lifecycle Manager : Helps to automate the snapshot cration process. 
 
+DMS uses Tags to filter the resources (instance / EBS volume)
 
+--> We can filter using Instance Tags (We have option to exclude specific volume)
+--> We can filter using EBS tags
 
+==> Can you explain your ec2 instances backup strategy.?
 
+--> Service
+--> Filtering the resource
+--> Tags with key and value
+--> Frequency (4 hrs / non prod - 12 hrs)
+--> Retention period ( pro-7 days - non-3 days)
 
-
-
-
+========================
 
 
 
