@@ -353,6 +353,76 @@ DMS uses Tags to filter the resources (instance / EBS volume)
 
 ========================
 
+D: 02/07/2026
+
+EFS : Elastic File System : 
+
+--> EFS works with NFS protocol (NFS : Network File system : 2049)
+--> We can use EFS to mount Multi-AZ spanned ec2 instances. 
+--> No Pre-Provisioned required. 
+--> unlimited Data
+--> You can mount it 100/1000s off ec2 instance.
+
+
+Secure Pipeline Mechanism Between EC2 Instances and EFS : 
+
+Step 1 : Create a security group for web servers who want to access EFS. 
+
+WEB-SG : 
+SSH : 0.0.0.0/0 / MyIP / Custom
+HTTP : 0.0.0.0/0 / MyIP / Custom
+HTTPS : 0.0.0.0/0 / MyIP / Custom
+
+Step 2 : Create a Security group for EFS Service.. 
+
+Option 1 : Open 2049/NFS port at EFS Security group, Choose "WEB-SG" as target. 
+
+Option 2 : Attach "Default SG" for your EC2 Instances and EFS. (Default SG is loopback SG)
+
+Option 3 : Open EFS for Entire VPC CIDR range. (172.31.0.0/16)
+
+Option 4 : Take the ec2 instance Private IPs and Add at EFS Sg. 
+
+Option 5 : Open for everyone (EFS --> NFS --> 2049 --> 0.0.0.0/0)
+
+
+--
+
+We can mount EFS using DNS Name : fs-07f6ed6df226435c7.efs.ap-south-1.amazonaws.com **
+IP Address : Limited to one Specific AZ.. 
+
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-07f6ed6df226435c7.efs.ap-south-1.amazonaws.com:/ efs
+
+---
+
+Launching 2 ec2 instances in 2 AZs.. and going to mount the EFS to both the ec2 instances. 
+
+Using userdata am making both ec2 instances as webserver.. 
+
+#!/bin/bash
+sudo dnf install httpd -y
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+http DocumentRoot Path: /var/www/html/
+nginx DocumentRoot Path: /usr/share/nginx/html/
+
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-07f6ed6df226435c7.efs.ap-south-1.amazonaws.com:/ /var/www/html/
+
+findmnt -t xfs
+
+
+
+
+
+
+
+
+
+
+
+
+GoldenAMI / Customised AMI : 
 
 
 
