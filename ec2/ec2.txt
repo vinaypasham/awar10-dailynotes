@@ -561,7 +561,82 @@ chmod +x web.sh
 ./web.sh
 
 
+=================
 
+D: 04/07/2026
+
+kubernetes : k8s
+
+Monitoring : CLoudwatch service monitors the resources. 
+Observability : o11y : SREs : It can look into the logs, identify the issue and verify the traces and alert if required.
+
+By using CW, We can monitor " CPU, network in/out, Disk read/write and status checks". 
+
+By using CW default Metrics, we CAN'T monitor : Memory usage, Disk used %, getting logs of custom application running inside ec2 instance..
+
+CW / CloudWatch : Has 2 types of monitoring.
+1. Basic Monitoring : Monitoring graph updates for every "5 minutes" interval.
+2. Detailed Monitoring : Monitoring graph updates for every "1 minute" interval.
+
+
+To add some load on ec2 instance CPU, run below command:
+
+
+sudo dnf install stress -y
+
+nproc		--> displays cpu count of your machine
+
+CPU Load
+stress --cpu 2 --timeout 60
+
+memoru Load
+stress --vm 2 --vm-bytes 512M --timeout 600
+
+
+Metric : "CPU Usage", Network, Disk Usage, Memory
+Threshould : The selected metric (CPU Usage) usage exceeding "%" (>= 80%) for a period (5 min or more).. 
+Action : Do you wan tto take any automated action i.e; stop/reboot/terminating/recover.. (ASG)
+Notification : Send Email using SNS service
+
+alarm : 
+
+Dashboard : 
+
+
+---
+
+
+Step 1 : Navigate to IAM, Click on Create Role, Choose "ec2" and Select "CloudWatchAgentServerPolicy" --> provide role name "cwagentrole".
+
+
+Step 2 : launch an ec2 instance and attach the IAM role you created in Step 1. 
+
+Step 3 : Install cloudwatch agent
+
+Step 3.1 Install apache/httpd and serve webcontent for generating application logs.
+
+sudo dnf install amazon-cloudwatch-agent -y
+
+sudo systemctl status amazon-cloudwatch-agent
+sudo systemctl enable amazon-cloudwatch-agent
+
+By default CW look for "config.json" file at "/opt/aws/amazon-cloudwatch-agent/bin/"
+
+crete cw config file : 
+sudo su
+cd opt/aws/amazon-cloudwatch-agent/bin/
+vim config.json									--> Refer the shared config file
+
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:///opt/aws/amazon-cloudwatch-agent/bin/config.json -s
+
+
+application logs storing at : 
+/var/log/httpd/access_log  
+/var/log/httpd/error_log
+
+
+Step 4 : verify the cw agent status: 
+sudo systemctl status amazon-cloudwatch-agent
 
 
 
