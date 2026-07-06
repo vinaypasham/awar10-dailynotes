@@ -638,6 +638,113 @@ application logs storing at :
 Step 4 : verify the cw agent status: 
 sudo systemctl status amazon-cloudwatch-agent
 
+============
+
+D: 06/07/26
+
+[host, logName, user, timestamp, request, statusCode=4*, size]
+
+[ip = 124.123.164.179, ident, user, timestamp, request, status_code, size, agent]
+
+
+========================
+
+
+EventBridge : 
+
+1. Event Driven process : React to an event
+
+When instance stopped, get a notification
+When user Deleted/Created, get Alert/Notification
+When Object uploaded to s3, invoke a lambda function.. 
+
+2. Scheduled Process : Run task at a specific interval.
+
+Everyday at 09AM start instance
+Eventday at 6 PM stop instance
+for every 5 min, invoke a lambda function
+
+
+Event : A JSON message that describe a change in state.
+
+Event Bus : The channel through which event flows (default / Custom / Partner)
+
+Rule : Defines which events to match and where to send them.
+
+Event Pattern : JSOn Filter
+
+
+Input Transformer : Reshape the event before sending it to target.
+Input Path : Pick what you need
+Input Template : Use input path info in simple langugae in input template
+
+=======
+
+Req 1 : When instance state changed i.e; stopped, send alert.
+
+
+{
+   "version":"0",
+   "id":"8046f980-4a56-7a15-75e2-eea7332b6ea5",
+   "detail-type":"EC2 Instance State-change Notification",
+   "source":"aws.ec2",
+   "account":"655700896650",
+   "time":"2026-07-06T04:33:35Z",
+   "region":"ap-south-1",
+   "resources":[
+      "arn:aws:ec2:ap-south-1:655700896650:instance/i-052f970913bd02164"
+   ],
+   "detail":{
+      "instance-id":"i-052f970913bd02164",
+      "state":"stopped"
+   }
+}
+
+---
+
+Input Path : 
+
+{
+	"time" : "$.time",
+	"region" : "$.region",
+	"instance-id" : "$.detail.instance-id",
+	"account" : "$.account",
+	"state" : "$.detail.state"
+}
+
+---
+
+Input Template : 
+
+"At <time>, In my <account> region <region>, a speicific instance with <instance-id> changed its status to <state>"
+
+==========
+
+Req : When IAM user created / deleted, send alert. 
+
+Pre-req: Create a management trail in cloudtrail. 
+
+
+{
+  "source": ["aws.iam"],
+  "detail-type": ["AWS API Call via CloudTrail"],
+  "detail": {
+    "eventSource": ["iam.amazonaws.com"],
+    "eventName": ["CreateUser", "DeleteUser"]
+  }
+}
+
+----
+Task
+Req 3 : When anyone modify any existing IAM policy, Send alert.
+
+Req 4 : When anyone opens port 22/3389 open for everyone (0.0.0.0/0), send alert. 
+
+===================
+
+
+
+
 
 
 
