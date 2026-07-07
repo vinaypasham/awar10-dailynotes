@@ -742,6 +742,84 @@ Req 4 : When anyone opens port 22/3389 open for everyone (0.0.0.0/0), send alert
 
 ===================
 
+D: 07/07/2026
+
+ClickOps : Performing aws operations using browser. 
+
+https://aws.amazon.com/cli/
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+aws --version
+
+aws configure
+AccessKey: AKIAZRKWRVOFJTRB2TNA
+SecretAccessKey : xxxx
+Default region : ap-south-1
+Default Output : json / table / text
+
+STS : Security Token Service : THis helps to issue temporary, limited privilaged credentails. 
+
+
+Verify which cli user configured and which account it is pointing:  aws sts get-caller-identity
+
+aws <service-name> <command> <arguments>
+
+aws s3 ls
+aws s3 ls s3://bucketname
+aws s3 cp <sourcepath> s3://bucketname
+aws s3 cp s3://bucketname/file.txt <localpath>
+aws s3 sync <sourcepath> s3://bucketname
+
+aws s3 cp s3://avizway7.com/index.html . --dryrun
+
+--dryrun		: performing command simulation, not actual execution. 
+
+--debug			: helps to identify potential command issues or connectivity issues. 
+
+aws s3 ls --debug
+
+-----
+
+You can access multiple AWS accounts using profile option.. 
+
+aws configure --profile dev
+aws configure --profile uat
+aws configure --profile prd
+
+------
+
+Problem with this option is, Credentials stores in plain text format in our laptop.. 
+
+c:/users/<username>/.aws/credentails ([dev] accesskey & secretkey, [uat] accesskey & secretkey)
+c:/users/<username>/.aws/config ([dev] region, output, [uat] region, output)
+
+mac: cd ~		--> ls -a 
+
+===========================
+
+We try to avoid above option mostlyt.. If we dont have alternative, then we use it.. 
+
+Some alternatives: 
+
+1. cloudshell
+2. aws login
+
+AWS Login: newer and recommended way to access aws env using temp credentials.. 
+
+IAM user should have AWS management console access.. 
+You need to atatch "SignInLocalDevelopmentAccess" policy to the user who want to login using "aws login"
+
+--> Establish a session : 12 Hours
+--> Temp token : 15 min
+
+AWS login stores temp token at "~/.aws/login/cache/xxxx.json" with expiration period. 
+
+--> If you have a server without browser/UI, Still we can use "aws login" option.. 
+
+aws login --remote
+
+aws login --profile dev
+aws login --profile uat
 
 
 
