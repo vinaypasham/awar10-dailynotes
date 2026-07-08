@@ -821,6 +821,39 @@ aws login --remote
 aws login --profile dev
 aws login --profile uat
 
+=======================
+
+D: 08/07/2026
+
+*ClouOps exam imp topic
+
+Systems manager : 
+
+sudo dnf install amazon-ssm-agent -y
+
+sudo systemctl enable amazon-ssm-agent --now			==> start and enable
+
+sudo systemctl status amazon-ssm-agent
+
+--> If you want to manage ec2 instances using SSM service, you need to attach an IAM role to the instance. 
+--> AmazonSSMManagedInstanceCore : This helps to connect ec2 instance using SSM. 
+
+
+1. Session Manager : Connect to ec2 instance without port 22 opened at SG level, also, without keypair. 
+
+Int Q: Can we connect to ec2 instance without opening port 22.? 
+
+2. Fleet manager : without connecting to ec2 instance, we can see processes, users and we can manage these. 
+Fow windows Instance, using Fleet manager, we can connect GUI.
+
+3. Run Command : We can execute commands without connecting to ec2 instance (10 - 100s of instances).
+
+4. Parameter Store : We can store less-sensitive values here as a parameter. from our application we can call this parameter and use the value when required. This service eliminates hardcoading the sensitive information in .env file or within the code.
+**LIMITATION comapred with Secrets manager, We canot automatically rotate the cred. 
+
+
+
+
 
 
 
