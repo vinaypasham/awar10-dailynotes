@@ -1,0 +1,76 @@
+
+
+D: 09/07/2026
+
+L7	--> Application layer	--> HTTP, HTTPS : 
+L6	--> Presentation layer	--> TLS/SSL, ASCII, UTP-8 : Data Encrypts, Compress & Translate.. 
+L5	--> Session layer		--> Opens, Manages and closes the communications
+L4	--> Transport layer		--> TCP, UDP, TLS : MOves data netween appls using port numbers - TCP gurantees delivery and ordering.
+L3	--> Network layer		--> IP, ICMP : Finds a path from one network to another network using IP Address. 
+L2	--> Data Link Layer		--> MAC/ Switches : Pocket connects between two connected devices on same network.
+L1 	--> Physical Layer 		--> Cable/Fible : The physical reality : 0s and 1s as electrical, radio ot lihht signal.
+
+
+learnaws.co.in/images/iam.mp4
+
+
+L4 Load Balancer : Network Load Balancer		: TCP, UDP, TLS --> IP:443 (It never opens the requests)
+L7 Load Balancer : Application Load balancer	: http, https : ALB Opens the req, sees the path, send the traffic to respective server.
+
+1. High Availability : We can span our instance across Multiple AZs.. 
+2. Single Endpoint / Single point of contact : CLient can hit one DNS endpoint / DNS Name.. LB takes care about the data routing backend to healthy instances only.
+3. Security : You no need to expose your instance.. We can add SSL/TLS Cert.. WAF integration.. 
+
+Vertical Scaling : Upgrading / Downgrading same instance capacity i.e; CPU, Memory.. 
+* We Need to stop ec2 instance if we want to perform Vertical scaling. 
+
+Horizantal Scaling : Adding more instances to scale our application.. 
+
+sudo dnf install httpd -y
+sudo systemctl enable httpd --now
+
+Make sure you use same SG for all the instance delivering same application.. 
+
+Create a SG for Load Balancer.
+http --> 80 : 0.0.0.0/0
+https --> 443 : 0.0.0.0/0
+8080 : 0.0.0.0/0
+
+---
+
+ELB : Elastic Load balancer
+ALB : Application Load balancer
+NLB : Network Load balancer
+CLB : Classic Load Balancer
+GLB : Gateway load balancer
+
+
+LB Requires a target group and SG.. 
+
+TG Creation: ALB
+
+Target Type: Instance
+Protocol : Http
+health check : /index.html
+
+Internet-facing : works over internet
+Internal : works within the aws vpc network. (Intranet)
+
+
+Web-SG 
+http : ELb-SG
+https : ELb-SG
+
+ELB-SG 
+http : 0.0.0.0/0
+https : 0.0.0.0/0
+
+
+
+
+
+
+
+
+
+
