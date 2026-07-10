@@ -5,7 +5,7 @@ D: 09/07/2026
 L7	--> Application layer	--> HTTP, HTTPS : 
 L6	--> Presentation layer	--> TLS/SSL, ASCII, UTP-8 : Data Encrypts, Compress & Translate.. 
 L5	--> Session layer		--> Opens, Manages and closes the communications
-L4	--> Transport layer		--> TCP, UDP, TLS : MOves data netween appls using port numbers - TCP gurantees delivery and ordering.
+L4	--> Transport layer		--> TCP, UDP, TLS : MOves data between appls using port numbers - TCP gurantees delivery and ordering.
 L3	--> Network layer		--> IP, ICMP : Finds a path from one network to another network using IP Address. 
 L2	--> Data Link Layer		--> MAC/ Switches : Pocket connects between two connected devices on same network.
 L1 	--> Physical Layer 		--> Cable/Fible : The physical reality : 0s and 1s as electrical, radio ot lihht signal.
@@ -64,6 +64,80 @@ https : ELb-SG
 ELB-SG 
 http : 0.0.0.0/0
 https : 0.0.0.0/0
+
+======================
+
+D: 10/07/2026
+
+One Instance can be member of multiple TGs.
+Also, THere is no need to have same port at TG level and listerner level. (application can run on 80, listener can be on 8888)
+
+How you troubleshoot if your instance is unhealthy at targetgoup level. 
+1. Instance is in running state
+2. Verify instance security group, Required port is opned or not.!
+3. Verify health check path you configured. make sure the path exists in your ec2 instances. 
+4. Application running on configured port or not.!! If app is in stopped state, then no response to the traffic. 
+5. Make sure your load balancer is running with all subnets, that your ec2 instances are running. 
+
+
+ALB : Nested round robin algorithm : 
+
+ROund Robin : Default algorithm, Trafic route as a cycle
+least outstanding request LOR :  alb evaluate the instance existng requests and decides where the new  incoming request will go, based on requests count, it distributes. it balances the requests.
+Weighted Random : uses anomaly mitigation to identity http status codes and connection errors, then route the traffic intelligently. 
+
+--> Sticky session : session sticks to one of the instance for a defined period. 
+
+---
+
+** It is always recommended to enable logs at lB level. 
+
+Access Logs : Detailed logs of all requests made to our lb.
+Connection logs : detailed logs of all connections made to our lb.
+health check logs : HC Logs delivers detailed logs on HC for all targets in our LB TG.
+
+
+ALB supports "http" and "https" only. 
+--> We canot allocate a static/fixed Public IP. ALBs IP may change. 
+
+--> Works with microservices and containers.
+
+ALB supports path based routing. 
+/api/* --> backend TG
+/ui/welcome.html --> frontend TG
+
+
+==============
+
+NLB : Network Load balancer : Layer 4 LB.. This supports only "TCP, TLS & UDP" Protocols. 
+NLB supports millions of requests per seconds with ultra low latency. 
+
+--> NLB supports fixed Public IP. 
+
+NLB works with Flow hash algorithm..  It will ha something called 5-tuple ingredients.. 
+
+Source IP Address : who send it
+Source Port 
+Destination IP Address : NLB Public IP Address
+Destination port : 80, 443
+Protocol : TCP / UDP
+
+using above info, it prepares a hashing, then chooses the target.. 
+
+=============
+
+1. Launch an ec2 insatnce, make it as webserver.. 
+2. create an EFS and mount it to ec2 instance documentroot path /var/www/html/, make it perm mount.. 
+3. Create some web content into this instance documentroot path. Stop and start instance and veify output. 
+4. Create a goldenAMI and launch an ec2 instance and verify.
+5. Create a TargetGroup and dont add any ec2 instance. 
+6. Create a LoadBalancer and verify the out. Should not deliver any output (5** status error)
+
+
+
+
+
+
 
 
 
