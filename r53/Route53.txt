@@ -94,17 +94,25 @@ sudo certbot --apache -d awswithavinashreddy.com -d www.awswithavinashreddy.com
 What is ACM : Amazon certificate manager.. THis service helps us to generate an SSL/TLS certificate, we can map this cert with aws native services.. This service is free..
 
 
+===================
+
+D: 15/07/2026
 
 
 
+sudo dnf install httpd -y
+sudo systemctl enable httpd --now
 
 
+simple routing policy : We use this when we have only one resource to map our doamin name. 
+
+weighted Routing Policy : We can define weight from 0 - 255.
+
+Canary Deployment : Slowly migrating application load from old application to new application. 
+Blue Green Deployment : Point our application to either blue version (old) or green version (new). 
 
 
-
-
-
-
+https://aws.amazon.com/blogs/architecture/disaster-recovery-dr-architecture-on-aws-part-i-strategies-for-recovery-in-the-cloud/
 
 
 
