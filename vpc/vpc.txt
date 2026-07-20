@@ -304,6 +304,66 @@ Same as Instance connect, if you want to conect using "System manager Session Ma
 2. ssmmessages
 3. ec2messages
 
+===================
+
+D: 20/07/2026
+
+VPC Peering: This feature helps to enable communication across VPCs.
+
+Requester VPC and Accepter VPC can be in same region in same account.
+Requester VPC and Accepter VPC can be in other region in same account.
+Requester VPC and Accepter VPC can be in same region in account-1 and account-2.
+Requester VPC and Accepter VPC can be in other region in account-1 and account-2.
+
+
+If requester and accepter VPCs CIDR ranges are same, we cannot create VPC Peering. 
+VPC Peering is non-transitive peering.
+
+					Requester VPC					Accepter VPC
+					
+Acc ID				655700896650					982424467695
+VPC ID				vpc-013984fc3f33fd2a2			vpc-02eff01081fa819f9
+CIDR Range			192.168.0.0/23					172.31.0.0/16
+region				ap-south-1						us-east-1
+
+Step 1 : In Requester VPC, Create a peering connection with all accepter VPC, region, account id info. 
+
+Step 2 : Switch to Accepter account, and accept the peering connection. 
+
+Step 3 : At requester VPC, update the route table with accepter CIDR range, via peering id.
+
+Step 4 : At Accepter VPC, update the route table with requester CIDR range, via peering id.
+
+telnet <private-ip> <port>
+
+==================
+
+Transit Gateway : Helps to establish the connection between VPCs. Helps for large number of VPCs. Works in hub and spoke model.
+
+Step 1 : Create a TGW in Central networking account. 
+
+Step 2 : using RAM (resource access manager) servcie, share the TGW with other accounts. then, switch to other account and nvigate to RAM service and accept the resource share. 
+
+Step 3 : In Central NW account, Create a TGW attachment with local VPC Subnets. 
+
+Step 4 : In Member account, Created a TGW attachment with same account VPC.  
+
+Step 5 : Switch to member account and choose the shared TGW atachemnt (Step 4 shared) and accept it.
+
+Step 6 : Edit member accounts route table with Central NW account's VPC CIDR range. 
+
+Step 7 : Edit central NW vpc account route table with member accoutn VPC CIDR.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
