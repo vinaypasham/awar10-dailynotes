@@ -189,8 +189,64 @@ permissions:
 	role-to-assume: arn:aws:iam::992189742322:role/awar10-gha-role
 
 
+======================================
 
 
+Trivy : Trivy is an open-source all-in-one vulnerabilities and security scanner. It is highly popular in DevSecOps because it's extremely fast, it's stateless, and easy to integrate with CI/CD pipelines. 
+
+Other tools are generally designed for single-purpose scanning but Trivy can scan for CVEs, common vulnerable dependencies, exposures, and we can even scan IAC infrastructure-as-code misconfigurations as well. 
+
+trivy image nginx:latest (image scan)
+trivy fs --scanners vuln,secret,misconfig ./my-project (local-file system scan)
+trivy repo https://github.com (git repo scan)
+trivy k8s --report summary cluster (k8s cluster scan)
+
+======================================
+
+
+CAST : comprehensive testing : a methodology that combines multiple security tools. We can treat this as a mixed box that looks at our code, looks at the running application, and checks the third-party applications and integrations. 
+With CAST we can find coding flaws, runtime errors, and vulnerable open-source libraries. 
+
+
+SAST : static application security testing : bandit, sonarcloud.
+- A single tool that scans uncompiled source code 
+- The testing style is white-box testing. It will inspect the entire code structure. With SAST scanning we can find coding practises, hard-coded passwords, and structural errors. 
+- SAST comes into the shift-left mechanism. Shift left means we can identify the issue early in the development when the developer is actually writing the code. 
+
+---
+
+
+WHy Sonarcloud: Sonar Cloud supports 40+ programming languages and frameworks. Sonar Cloud has a feature called Quality Gate. 
+
+Quality Gate: it acts as a go/no-go filter. It stops the code from processing if it fails to meet specific metrics like low code coverage and high bug density. 
+
+Bugs : Its a code error that will cause functional failure.
+Vulnerabilities : a security weakness that can put our obligation at risk of exploitation 
+Code Smells : poorly structured code that is not actually broken but it makes maintenance difficult over time 
+Duplication : Sonar can highlight the duplicated code blocks to prevent redundancy. 
+
+---
+
+Once our project's initial analysis is complete we need to disable automatic analysis as this will conflict with the code pipeline. 
+** You are running CI analysis while automatic analysis is enabled. 
+- Choose the project
+- Clock on Administration in bottom left sidebar
+- CLick on analysis method
+- choose analysis as OFF
+
+- Choose GITHUB Actions as Analysis metod
+- Copy and CREATE a Secret on our repository for SONAR_TOKEN. 
+
+organisation: avizway1-1
+projectkey: avizway1-1_awar10-ghademo
+
+docker/login-action@v4												--> Can be tampered
+docker/login-action@783ae9cac559640a24c9212dfa6cd9e998252f9a		--> Always point to specific commit SHA
+
+
+
+
+KEDA - Kubernetes-based Event Driven Autoscaler
 
 
 
